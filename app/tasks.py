@@ -57,7 +57,7 @@ def export_posts(user_id):
         _set_task_progress(100)
         app.logger.error('Unhandled exception', exc_info=sys.exc_info())
 
-def autoML_modelbuild():
+def autoML_modelbuild(user_id):
     try:
         rij = Data_subset.query.filter(Data_subset.subset == str(current_user.id) + "-" + session['subsetselection'])
         target = rij[0].target_column
