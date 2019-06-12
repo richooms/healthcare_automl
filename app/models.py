@@ -65,15 +65,15 @@ class User(UserMixin, db.Model):
     def my_subsets(self):
         subsets = Data_subset.query.join(
             User_dataset, (Data_subset.dataset_name == User_dataset.dataset)).filter(
-                User_dataset.user_id == self.id).all().order_by(User_dataset.id.desc())
-        return subsets
+                User_dataset.user_id == self.id)
+        return subsets.order_by(User_dataset.id.desc())
 
     def my_results(self):
         results = Analysis_result.query.join(
             Data_subset, (Data_subset.subset == Analysis_result.subset_name)).join(
                 User_dataset, (Data_subset.dataset_name == User_dataset.dataset)).filter(
-                    User_dataset.user_id == self.id).all().order_by(Analysis_result.id.desc())
-        return results
+                    User_dataset.user_id == self.id)
+        return results.order_by(Analysis_result.id.desc())
 
 @login.user_loader
 def load_user(id):
