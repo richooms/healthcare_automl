@@ -126,7 +126,7 @@ def select_subset():
 @bp.route('/AutoML')
 @login_required
 def analysis():
-    current_user.launch_task('example', _('Launching example tasks'))
+    current_user.launch_task('autoML_modelbuild', _('Launching example tasks'))
     flash(_('Your model is being generated, the results will be available in the results page in 5 minutes'))
     
     return redirect(url_for('main.index'))
