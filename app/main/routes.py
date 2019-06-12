@@ -51,7 +51,7 @@ def upload():
         datasetid =  User_dataset.query.count() + 1
         datasetname = str(current_user.id) + "-" + str(form.data_name.data)
         df.to_sql(con=db.engine, index_label='id', name=str(current_user.id) + "-" + str(form.data_name.data), if_exists='replace', index = False)
-        data_user = User_dataset(user_id=current_user.id, dataset = datasetid, dataset_name=str(form.data_name.data))
+        data_user = User_dataset(user_id=current_user.id, dataset = datasetname, dataset_name=str(form.data_name.data))
         db.session.add(data_user)
 
         for column in columns:
