@@ -45,15 +45,7 @@ class User(UserMixin, db.Model):
         except:
             return
         return User.query.get(id)
-
-    def launch_task(self, name, description, *args, **kwargs):
-        rq_job = current_app.task_queue.enqueue('app.tasks.' + name, self.id,
-                                                *args, **kwargs)
-        task = Task(id=rq_job.get_id(), name=name, description=description,
-                    user=self)
-        db.session.add(task)
-        return task
-    
+  
     def launch_AutoML(self, name, description, columns, table, analysisname, *args, **kwargs):
         rq_job = current_app.task_queue.enqueue('app.tasks.' + name, self.id, columns, table, analysisname, *args, **kwargs)
         task = Task(id=rq_job.get_id(), name=name, description=description, user=self)
@@ -73,14 +65,14 @@ class User(UserMixin, db.Model):
     def my_subsets(self):
         subsets = Data_subset.query.join(
             User_dataset, (Data_subset.dataset_name == User_dataset.dataset)).filter(
-                User_dataset.user_id == self.id)
+                User_dataset.user_id == self.id).all()
         return subsets.order_by(User_dataset.id.desc())
 
     def my_results(self):
         results = Analysis_result.query.join(
             Data_subset, (Data_subset.subset == Analysis_result.subset_name)).join(
                 User_dataset, (Data_subset.dataset_name == User_dataset.dataset)).filter(
-                    User_dataset.user_id == self.id)
+                    User_dataset.user_id == self.id).all()
         return results.order_by(Analysis_result.id.desc())
 
 @login.user_loader
