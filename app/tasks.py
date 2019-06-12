@@ -1,7 +1,14 @@
 import json
 import sys
 import time
-from flask import render_template
+from flask import render_template, session
+from numpy import argwhere, delete
+from pandas import read_csv, read_sql_table, DataFrame
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import LabelEncoder
+from sqlalchemy import create_engine, MetaData
+from sqlalchemy.orm import sessionmaker
+from tpot import TPOTClassifier
 from rq import get_current_job
 from app import create_app, db
 from app.models import User,  User_dataset, Data_subset, Analysis_result, Dataset_columns, Task
@@ -59,10 +66,11 @@ def export_posts(user_id):
 
 def autoML_modelbuild(user_id):
     try:
-        rij = Data_subset.query.filter(Data_subset.subset == str(current_user.id) + "-" + session['subsetselection'])
+        print(user_id)
+        rij = Data_subset.query.filter(Data_subset.subset == str(user_id) + "-" + session['subsetselection'])
         target = rij[0].target_column
         predictors = rij[0].columns_subset
-        tabel = str(current_user.id) + "-" + session['datasetinuse']
+        tabel = str(user_id) + "-" + session['datasetinuse']
         #laad data van sql
         df = read_sql_table(tabel, db.engine)
     
