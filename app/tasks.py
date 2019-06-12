@@ -4,7 +4,7 @@ import time
 from flask import render_template
 from rq import get_current_job
 from app import create_app, db
-from app.models import User, Post, Task
+from app.models import User,  User_dataset, Data_subset, Analysis_result, Dataset_columns, Task
 from app.email import send_email
 
 app = create_app()
