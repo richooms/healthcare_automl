@@ -127,11 +127,10 @@ def select_subset():
 @login_required
 def analysis():
     subsetselection = session['subsetselection']
-    print(subsetselection)
     tabel = str(current_user.id) + "-" + session['datasetinuse']
-    print(tabel)
     analysisname = session['analysisname']
-    print(analysisname)
+    kolomnamen = Data_subset.query.filter(Data_subset.subset == str(current_user.id) + "-" + session['subsetselection'])
+    print(kolomnamen)
     current_user.launch_AutoML('autoML_modelbuild', _('Launching example tasks'), subsetselection, tabel, analysisname)
     flash(_('Your model is being generated, the results will be available in the results page in 5 minutes'))
     
