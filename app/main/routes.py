@@ -228,4 +228,4 @@ def result_overview():
 @login_required
 def execute_tasks():
     current_user.launch_task('example', _('Launching example tasks'))
-    return redirect(url_for('main.user', username=current_user.username))
+    return redirect(url_for('main.index', username=current_user.username))
