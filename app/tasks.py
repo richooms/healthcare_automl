@@ -31,7 +31,8 @@ def autoML_modelbuild(user_id, dataset, subsetselection, analysisname):
         print('dataset = ' + dataset)
         print('subsetselection =' + subsetselection)
         print('analysisname=:' + analysisname)
-        rij = Data_subset.query.filter(Data_subset.subset == str(user_id) + "-" + subsetselection)
+        rij = Data_subset.query.filter(Data_subset.subset == str(user_id) + "-" + subsetselection).all()
+        print(rij)
         target = rij[0].target_column
         predictors = rij[0].columns_subset
         tabel = dataset
