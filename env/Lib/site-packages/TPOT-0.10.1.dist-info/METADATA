@@ -1,0 +1,57 @@
+Metadata-Version: 2.0
+Name: TPOT
+Version: 0.10.1
+Summary: Tree-based Pipeline Optimization Tool
+Home-page: https://github.com/EpistasisLab/tpot
+Author: Randal S. Olson
+Author-email: rso@randalolson.com
+License: GNU/LGPLv3
+Keywords: pipeline optimization,hyperparameter optimization,data science,machine learning,genetic programming,evolutionary computation
+Platform: UNKNOWN
+Classifier: Intended Audience :: Science/Research
+Classifier: License :: OSI Approved :: GNU Lesser General Public License v3 (LGPLv3)
+Classifier: Programming Language :: Python :: 2
+Classifier: Programming Language :: Python :: 2.7
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.4
+Classifier: Programming Language :: Python :: 3.5
+Classifier: Programming Language :: Python :: 3.6
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Topic :: Scientific/Engineering :: Artificial Intelligence
+Provides-Extra: skrebate
+Provides-Extra: mdr
+Provides-Extra: xgboost
+Provides-Extra: dask
+Requires-Dist: deap (>=1.0)
+Requires-Dist: numpy (>=1.12.1)
+Requires-Dist: pandas (>=0.20.2)
+Requires-Dist: scikit-learn (>=0.18.1)
+Requires-Dist: scipy (>=0.19.0)
+Requires-Dist: stopit (>=1.1.1)
+Requires-Dist: tqdm (>=4.26.0)
+Requires-Dist: update-checker (>=0.16)
+Provides-Extra: dask
+Requires-Dist: dask (>=0.18.2); extra == 'dask'
+Requires-Dist: dask-ml (>=0.9.0); extra == 'dask'
+Requires-Dist: distributed (>=1.22.1); extra == 'dask'
+Provides-Extra: mdr
+Requires-Dist: scikit-mdr (>=0.4.4); extra == 'mdr'
+Provides-Extra: skrebate
+Requires-Dist: skrebate (>=0.3.4); extra == 'skrebate'
+Provides-Extra: xgboost
+Requires-Dist: xgboost (==0.6a2); extra == 'xgboost'
+
+
+A Python tool that automatically creates and optimizes machine learning pipelines using genetic programming.
+
+Contact
+=============
+If you have any questions or comments about TPOT, please feel free to contact us via:
+
+E-mail: ttle@pennmedicine.upenn.edu or weixuanf@pennmedicine.upenn.edu
+
+or Twitter: https://twitter.com/trang1618 or https://twitter.com/WeixuanFu
+
+This project is hosted at https://github.com/EpistasisLab/tpot
+
+

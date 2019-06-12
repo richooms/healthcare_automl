@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block app_content %}
+    <h1>{{ _('Hi, %(username)s!', username=current_user.username) }}</h1>
+<p>
+Welcome to the AutoML web application. This application is designed to make AutoML available to domain experts.
+The workflow of the application is as follows:<br>
+1. Upload a raw dataset<br>
+2. Create one or more (sub)sets from this raw dataset to do your analysis on <br>
+3. Let AutoML create a good model for your data a model based on the provided subset <br>
+4. Check the results when the model is done processing
+
+On the menu bar above you can find the buttons to do each of these steps
+</p>    
+<p>
+An overview of the already uploaded datasets, subsets and analyisis results is available here: 
+<li><a href="{{ url_for('main.dataset_overview')}}">{{ _('Dataset Overview') }}</a></li> 
+<li><a href="{{ url_for('main.subset_overview') }}">{{ _('Subset Overview') }}</a></li>
+<li><a href="{{ url_for('main.result_overview') }}">{{ _('Result Overview') }}</a></li>
+</p>
+{% endblock %}

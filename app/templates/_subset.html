@@ -1,0 +1,20 @@
+    <table class="table table-hover" style="width:100%">
+        <tr>
+            <td>
+                <span id="post{{ subset.id }}" style="width:10%">Name: {{ subset.subset_name}}</span>
+                </span>
+            </td>
+			<td>
+				<span id="post{{ subset.id }}" style="width:70%">Dataset: {{ subset.dataset_id}}</span>
+                </span>
+			</td>
+			<td>
+				<span id="post{{ subset.id }}" style="width:10%">Predictors: {{ subset.columns_subset}}</span>
+                </span>
+			</td>
+			<td>
+				<span id="post{{ subset.id }}" style="width:10%" align="right">Target: {{ subset.target_column }}</span>
+                </span>
+			</td>
+        </tr>
+    </table>

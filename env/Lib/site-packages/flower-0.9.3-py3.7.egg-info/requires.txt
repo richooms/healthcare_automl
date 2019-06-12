@@ -1,0 +1,7 @@
+celery>=3.1.0
+tornado<6.0.0,>=4.2.0
+babel<3.0.0,>=1.0
+pytz
+
+[:python_version == "2.7"]
+futures

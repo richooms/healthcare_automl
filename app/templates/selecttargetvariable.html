@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block app_content %}
+    <h1>{{ _('Selecteer dataset voor verwerking') }}</h1>
+	<p> You are now using {{ session['datasetinuse'] }} as a dataset to make a subset from. Please also select the target variable in the variables to include. You can select multiple columns by using the ctrl button while clicking.
+    <div class="row">
+        <div class="col-md-4">
+            {{ wtf.quick_form(form) }}
+        </div>
+    </div>
+{% endblock %}

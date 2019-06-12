@@ -1,0 +1,12 @@
+    <table class="table table-hover">
+        <tr>
+            <td width="50%">
+                <span id="post{{ data.id }}">Name: {{ data.dataset_name }}</span>
+                </span>
+            </td>
+			<td width="50%" align="right">
+                <span id="post{{ data.id }}">Uploaded on:{{ moment(data.timestamp).format('LLL') }}</span>
+                </span>
+            </td>
+        </tr>
+    </table>

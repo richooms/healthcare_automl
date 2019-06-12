@@ -1,0 +1,20 @@
+    <table class="table table-hover" style="width:100%">
+        <tr>
+            <td>
+                <span id="post{{ result.id }}" style="width:10%">Name: {{ result.subset_name}}</span>
+                </span>
+            </td>
+			<td>
+				<span id="post{{ result.id }}" style="width:70%">Subset used: {{ result.subset_id}}</span>
+                </span>
+			</td>
+			<td>
+				<span id="post{{ result.id }}" style="width:10%">Model used: {{ result.analysis_model}}</span>
+                </span>
+			</td>
+			<td>
+				<span id="post{{ result.id }}" style="width:10%" align="right">Score: {{ result.analysis_score }}</span>
+                </span>
+			</td>
+        </tr>
+    </table>
