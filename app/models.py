@@ -60,7 +60,22 @@ class User(UserMixin, db.Model):
     def get_task_in_progress(self, name):
         return Task.query.filter_by(name=name, user=self,
                                     complete=False).first()
+    def my_datasets(self):
+        datasets = User_dataset.query.filter(self.id == User_dataset.user_id)
+        return datasets.order_by(User_dataset.timestamp.desc())
 
+    def my_subsets(self):
+        subsets = Data_subset.query.join(
+            User_dataset, (Data_subset.dataset_name == User_dataset.dataset)).filter(
+                User_dataset.user_id == self.id)
+        return subsets.order_by(User_dataset.id.desc())
+
+    def my_results(self):
+        results = Analysis_result.query.join(
+            Data_subset, (Data_subset.subset == Analysis_result.subset_name)).join(
+                User_dataset, (Data_subset.dataset_name == User_dataset.dataset)).filter(
+                    User_dataset.user_id == self.id)
+        return results.order_by(Analysis_result.id.desc())
 
 @login.user_loader
 def load_user(id):
