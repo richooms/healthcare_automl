@@ -168,7 +168,7 @@ def analysis():
     X_train, X_test, Y_train, Y_test = train_test_split(dffeatures, df.target, train_size = 0.75, test_size = 0.25)
 
     #zet classifier op
-    tpot = TPOTClassifier(generations=5, population_size=40, cv=5, random_state=42, verbosity=2, max_time_mins = 2)
+    tpot = TPOTClassifier(generations=5, population_size=40, cv=5, random_state=42, verbosity=2, max_time_mins = 0.49)
     
     #train model
     tpot.fit(X_train, Y_train)
