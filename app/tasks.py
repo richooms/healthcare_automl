@@ -27,20 +27,13 @@ def example(seconds):
 
 def autoML_modelbuild(user_id, dataset, subsetselection, analysisname):
     try:
-        print(user_id)
-        print('dataset = ' + dataset)
-        print('subsetselection =' + subsetselection)
-        print('analysisname=:' + analysisname)
         rij = Data_subset.query.filter(Data_subset.subset == str(user_id) + "-" + subsetselection).all()
-        print(Data_subset.query.filter(Data_subset.subset == str(user_id) + "-" + subsetselection).all())
-        print('zonder all')
-        print(Data_subset.query.filter(Data_subset.subset == str(user_id) + "-" + subsetselection))
-        print(rij)
         target = rij[0].target_column
+        print('target=' + target)
         predictors = rij[0].columns_subset
-        tabel = dataset
+        print('predictors='+predictors)
         #laad data van sql
-        df = read_sql_table(tabel, db.engine)
+        df = read_sql_table(dataset, db.engine)
     
         #verklein dataset obv subsetselectie
         predictors = predictors.replace('[', '')
@@ -84,7 +77,7 @@ def autoML_modelbuild(user_id, dataset, subsetselection, analysisname):
         r = tpot.score(X_test, Y_test)
         model = tpot.clean_pipeline_string
 
-        subsetid = user_id + "-" + subsetselection
+        subsetid = str(user_id) + "-" + subsetselection
         analysisresult = Analysis_result(subset_name = subsetid, analysis_name=analysisname, analysis_score = r, analysis_model = str(model)  )
         db.session.add(analysisresult)
         db.session.commit()
