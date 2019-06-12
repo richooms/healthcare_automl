@@ -16,6 +16,7 @@ def example(seconds):
         print(i)
         time.sleep(1)
     print('Task completed')
+    print('Ooms is een zieke baas en moetikeenriet.at is tering mooi')
 
 def _set_task_progress(progress):
     job = get_current_job()
