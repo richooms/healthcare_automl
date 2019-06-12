@@ -118,6 +118,7 @@ def select_subset():
 
     if form.validate_on_submit():
         session['subsetselection'] = str(form.subset.data)
+        session['analysisname'] = str(form.analysisname.data)
         return redirect(url_for('main.analysis'))
 
     return render_template('subsetselect.html', form = form)
@@ -178,7 +179,7 @@ def analysis():
     model = tpot.clean_pipeline_string
 
     subsetid = str(current_user.id) + "-" + str(session['subsetselection'])
-    analysisresult = Analysis_result(subset_name = subsetid, analysis_score = r, analysis_model = str(model)  )
+    analysisresult = Analysis_result(subset_name = subsetid, analysis_name =session['analysisname'], analysis_score = r, analysis_model = str(model)  )
     db.session.add(analysisresult)
     db.session.commit()
     print('TPOT test completed')
@@ -223,4 +224,8 @@ def result_overview():
     print(current_user.my_results().all())
     return render_template('resultsoverview.html', object=_('Dataset'),  results=results.items, next_url=next_url, prev_url=prev_url)
 
-
+@bp.route('/tasks')
+@login_required
+def execute_tasks():
+    current_user.launch_task('example', _('Launching example tasks'))
+    return redirect(url_for('main.user', username=current_user.username))

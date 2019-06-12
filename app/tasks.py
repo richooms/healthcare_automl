@@ -10,6 +10,12 @@ from app.email import send_email
 app = create_app()
 app.app_context().push()
 
+def example(seconds):
+    print('Starting task')
+    for i in range(seconds):
+        print(i)
+        time.sleep(1)
+    print('Task completed')
 
 def _set_task_progress(progress):
     job = get_current_job()
