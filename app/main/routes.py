@@ -119,6 +119,7 @@ def select_subset():
     if form.validate_on_submit():
         session['subsetselection'] = str(form.subset.data)
         session['analysisname'] = str(form.analysisname.data)
+        print(form.subset.data)
         return redirect(url_for('main.analysis'))
 
     return render_template('subsetselect.html', form = form)
