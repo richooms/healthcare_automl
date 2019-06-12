@@ -47,7 +47,6 @@
     <Compile Include="app\auth\forms.py" />
     <Compile Include="app\auth\routes.py" />
     <Compile Include="app\auth\__init__.py" />
-    <Compile Include="app\cli.py" />
     <Compile Include="app\email.py" />
     <Compile Include="app\errors\handlers.py" />
     <Compile Include="app\errors\__init__.py" />
@@ -60,7 +59,6 @@
     <Compile Include="app\models.py" />
     <Compile Include="app\search.py" />
     <Compile Include="app\tasks.py" />
-    <Compile Include="app\translate.py" />
     <Compile Include="app\__init__.py" />
     <Compile Include="config.py" />
     <Compile Include="microblog.py" />

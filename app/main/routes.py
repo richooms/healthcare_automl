@@ -131,7 +131,7 @@ def analysis():
     tabel = str(current_user.id) + "-" + session['datasetinuse']
     analysisname = session['analysisname']
     current_user.launch_AutoML('autoML_modelbuild', _('Launching example tasks'), tabel, subsetselection, analysisname)
-    flash(_('Your model is being generated, the results will be available in the results page in 5 minutes'))
+    flash(_('Your model is being generated, the results will be available in the results page in 15 minutes'))
     
     return redirect(url_for('main.index'))
 
