@@ -56,3 +56,62 @@ def export_posts(user_id):
     except:
         _set_task_progress(100)
         app.logger.error('Unhandled exception', exc_info=sys.exc_info())
+
+def autoML_modelbuild():
+    try:
+        rij = Data_subset.query.filter(Data_subset.subset == str(current_user.id) + "-" + session['subsetselection'])
+        target = rij[0].target_column
+        predictors = rij[0].columns_subset
+        tabel = str(current_user.id) + "-" + session['datasetinuse']
+        #laad data van sql
+        df = read_sql_table(tabel, db.engine)
+    
+        #verklein dataset obv subsetselectie
+        predictors = predictors.replace('[', '')
+        predictors = predictors.replace(']', '')
+        predictors = predictors.split(", ")
+    
+        if target in predictors:
+            df = df[predictors]
+        else:
+            print(type(predictors))
+            predictors.append(target)
+            df = df[predictors]
+
+        #rename de targetvariable naar targetvariabele
+        df.rename(columns={target: 'target'}, inplace=True)
+        predictors = df.columns.values
+        index = argwhere(predictors=='target')
+        predictors = delete(predictors, index)
+        dffeatures = df[predictors] 
+
+        # Categorical boolean mask
+        categorical_feature_mask = dffeatures.dtypes==object
+
+        # filter categorical columns using mask and turn it into a list
+        categorical_cols = dffeatures.columns[categorical_feature_mask].tolist()
+        le = LabelEncoder()
+        # apply le on categorical feature columns
+        if len(categorical_cols) >= 1 :
+            dffeatures[categorical_cols] = dffeatures[categorical_cols].apply(lambda col: le.fit_transform(col))
+
+        #set train en validatieset op
+        X_train, X_test, Y_train, Y_test = train_test_split(dffeatures, df.target, train_size = 0.75, test_size = 0.25)
+
+        #zet classifier op
+        tpot = TPOTClassifier(generations=5, population_size=40, cv=5, random_state=42, verbosity=2, max_time_mins = 0.49)
+    
+        #train model
+        tpot.fit(X_train, Y_train)
+
+        #print result
+        r = tpot.score(X_test, Y_test)
+        model = tpot.clean_pipeline_string
+
+        subsetid = str(current_user.id) + "-" + str(session['subsetselection'])
+        analysisresult = Analysis_result(subset_name = subsetid, analysis_name =session['analysisname'], analysis_score = r, analysis_model = str(model)  )
+        db.session.add(analysisresult)
+        db.session.commit()
+        print('TPOT test completed')
+    except:
+        app.logger.error('Unhandled exception', exc_info=sys.exc_info())
