@@ -126,7 +126,13 @@ def select_subset():
 @bp.route('/AutoML')
 @login_required
 def analysis():
-    current_user.launch_task('autoML_modelbuild', _('Launching example tasks'))
+    subsetselection = session['subsetselection']
+    print(subsetselection)
+    tabel = str(current_user.id) + "-" + session['datasetinuse']
+    print(tabel)
+    analysisname = session['analysisname']
+    print(analysisname)
+    current_user.launch_AutoML('autoML_modelbuild', _('Launching example tasks'), subsetselection, tabel, analysisname)
     flash(_('Your model is being generated, the results will be available in the results page in 5 minutes'))
     
     return redirect(url_for('main.index'))

@@ -25,52 +25,13 @@ def example(seconds):
     print('Task completed')
     print('Ooms is een zieke baas en moetikeenriet.at is tering mooi')
 
-def _set_task_progress(progress):
-    job = get_current_job()
-    if job:
-        job.meta['progress'] = progress
-        job.save_meta()
-        task = Task.query.get(job.get_id())
-        task.user.add_notification('task_progress', {'task_id': job.get_id(),
-                                                     'progress': progress})
-        if progress >= 100:
-            task.complete = True
-        db.session.commit()
-
-
-def export_posts(user_id):
-    try:
-        user = User.query.get(user_id)
-        _set_task_progress(0)
-        data = []
-        i = 0
-        total_posts = user.posts.count()
-        for post in user.posts.order_by(Post.timestamp.asc()):
-            data.append({'body': post.body,
-                         'timestamp': post.timestamp.isoformat() + 'Z'})
-            time.sleep(5)
-            i += 1
-            _set_task_progress(100 * i // total_posts)
-
-        send_email('[Microblog] Your blog posts',
-                sender=app.config['ADMINS'][0], recipients=[user.email],
-                text_body=render_template('email/export_posts.txt', user=user),
-                html_body=render_template('email/export_posts.html',
-                                          user=user),
-                attachments=[('posts.json', 'application/json',
-                              json.dumps({'posts': data}, indent=4))],
-                sync=True)
-    except:
-        _set_task_progress(100)
-        app.logger.error('Unhandled exception', exc_info=sys.exc_info())
-
-def autoML_modelbuild(user_id):
+def autoML_modelbuild(user_id, dataset, subsetselection, analysisname):
     try:
         print(user_id)
-        rij = Data_subset.query.filter(Data_subset.subset == str(user_id) + "-" + session['subsetselection'])
+        rij = Data_subset.query.filter(Data_subset.subset == str(user_id) + "-" + subsetselection)
         target = rij[0].target_column
         predictors = rij[0].columns_subset
-        tabel = str(user_id) + "-" + session['datasetinuse']
+        tabel = dataset
         #laad data van sql
         df = read_sql_table(tabel, db.engine)
     
@@ -116,10 +77,36 @@ def autoML_modelbuild(user_id):
         r = tpot.score(X_test, Y_test)
         model = tpot.clean_pipeline_string
 
-        subsetid = str(current_user.id) + "-" + str(session['subsetselection'])
-        analysisresult = Analysis_result(subset_name = subsetid, analysis_name =session['analysisname'], analysis_score = r, analysis_model = str(model)  )
+        subsetid = user_id + "-" + subsetselection
+        analysisresult = Analysis_result(subset_name = subsetid, analysis_name=analysisname, analysis_score = r, analysis_model = str(model)  )
         db.session.add(analysisresult)
         db.session.commit()
         print('TPOT test completed')
     except:
+        app.logger.error('Unhandled exception', exc_info=sys.exc_info())
+
+def export_posts(user_id):
+    try:
+        user = User.query.get(user_id)
+        _set_task_progress(0)
+        data = []
+        i = 0
+        total_posts = user.posts.count()
+        for post in user.posts.order_by(Post.timestamp.asc()):
+            data.append({'body': post.body,
+                         'timestamp': post.timestamp.isoformat() + 'Z'})
+            time.sleep(5)
+            i += 1
+            _set_task_progress(100 * i // total_posts)
+
+        send_email('[Microblog] Your blog posts',
+                sender=app.config['ADMINS'][0], recipients=[user.email],
+                text_body=render_template('email/export_posts.txt', user=user),
+                html_body=render_template('email/export_posts.html',
+                                          user=user),
+                attachments=[('posts.json', 'application/json',
+                              json.dumps({'posts': data}, indent=4))],
+                sync=True)
+    except:
+        _set_task_progress(100)
         app.logger.error('Unhandled exception', exc_info=sys.exc_info())
