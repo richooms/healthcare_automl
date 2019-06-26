@@ -29,9 +29,7 @@ def autoML_modelbuild(user_id, dataset, subsetselection, analysisname):
     try:
         rij = Data_subset.query.filter(Data_subset.subset == str(user_id) + "-" + subsetselection).all()
         target = rij[0].target_column
-        print('target=' + target)
         predictors = rij[0].columns_subset
-        print('predictors='+predictors)
         #laad data van sql
         df = read_sql_table(dataset, db.engine)
     
@@ -43,7 +41,6 @@ def autoML_modelbuild(user_id, dataset, subsetselection, analysisname):
         if target in predictors:
             df = df[predictors]
         else:
-            print(type(predictors))
             predictors.append(target)
             df = df[predictors]
 
@@ -67,8 +64,16 @@ def autoML_modelbuild(user_id, dataset, subsetselection, analysisname):
         #set train en validatieset op
         X_train, X_test, Y_train, Y_test = train_test_split(dffeatures, df.target, train_size = 0.75, test_size = 0.25)
 
-        #zet classifier op
-        tpot = TPOTClassifier(generations=5, population_size=40, cv=5, random_state=42, verbosity=2, max_time_mins = 15)
+        tpot_config = {
+            'sklearn.linear_model.LogisticRegression': {
+            'penalty': ["l1", "l2"],
+            'C': [1e-4, 1e-3, 1e-2, 1e-1, 0.5, 1., 5., 10., 15., 20., 25.],
+            'dual': [True, False]
+            }
+        }
+
+        tpot = TPOTClassifier(generations=5, population_size=20, verbosity=2,
+                      config_dict=tpot_config, max_time_mins = 2)
     
         #train model
         tpot.fit(X_train, Y_train)
