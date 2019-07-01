@@ -1,3 +1,3 @@
-# Welcome to Microblog!
+# Welcome to AutoML healthcare!
 
-This is an example application featured in my [Flask Mega-Tutorial](https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-i-hello-world). See the tutorial for instructions on how to work with it.
+With this application one can easily run TPOT on any dataset that they upload. It is based on the flasky tutorial by Michael Grinberg and created by Richard Ooms as part of his master's thesis at Utrecht University 
