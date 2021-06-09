@@ -50,7 +50,7 @@ Click==7.0
 deap==1.2.2
 dominate==2.3.5
 idna==2.8
-pip==19.0.3
+pip==19.2
 python-dateutil==2.8.0
 python-dotenv==0.10.3
 python-editor==1.0.4
