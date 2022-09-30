@@ -41,7 +41,7 @@ pandas==0.24.2
 numpy==1.16.4
 sklearn==0.0
 TPOT==0.10.1
-joblib==0.13.2
+joblib==1.2.0
 flower==0.9.3
 Babel==2.7.0
 certifi==2019.3.9
